@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Entities\InvoiceEntities;
 use App\Entities\UsersEntities;
+use App\Mail\InvoiceMail;
 use App\Repositories\InvoiceRepository;
 use App\Repositories\UsersRepository;
+use Illuminate\Support\Facades\Mail;
 
 class InvoiceServices
 {
@@ -41,7 +43,18 @@ class InvoiceServices
     {
         $user = $this->usersServices->userCheck($UsersEntities);
         $invoiceEntities->setUserId($user->id);
-        return $this->invoiceRepository->create($invoiceEntities->getAttributesArray());
+        $invoice = $this->invoiceRepository->create($invoiceEntities->getAttributesArray());
+        $this->SendMail($user, $invoice->toArray());
+        return $invoice;
+    }
+
+    /**
+     * @param  $user
+     * @param $invoice
+     */
+    protected function SendMail($user, $invoice): void
+    {
+        Mail::to($user->email)->send(new InvoiceMail($invoice));
     }
 
 
