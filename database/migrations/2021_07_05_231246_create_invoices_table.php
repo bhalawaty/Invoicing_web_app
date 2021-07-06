@@ -17,7 +17,7 @@ class CreateInvoicesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('full_name');
+            $table->string('name');
             $table->integer('mobile');
             $table->string('email');
             $table->float('amount');

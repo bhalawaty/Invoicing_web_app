@@ -16,7 +16,7 @@ class UsersServices
 
     public function __construct(UsersRepository $usersRepository)
     {
-        return $this->usersRepository = $usersRepository;
+         $this->usersRepository = $usersRepository;
     }
 
 
@@ -27,6 +27,17 @@ class UsersServices
     public function store(UsersEntities $UsersEntities)
     {
         return $this->usersRepository->create($UsersEntities->getAttributesArray());
+    }
+
+
+    public function userCheck(UsersEntities $UsersEntities)
+    {
+        $user = $this->usersRepository->firstWhereOrWhere(['mobile' => $UsersEntities->getMobile()], ['email' => $UsersEntities->getEmail()]);
+        if ($user) {
+            return $user;
+        } else {
+            return $this->store($UsersEntities);
+        }
     }
 
 }

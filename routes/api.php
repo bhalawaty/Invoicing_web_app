@@ -16,4 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Api'], function () {
     Route::post('/store/user', 'UserController@store');
+    Route::post('/store/invoice', 'InvoiceController@store');
+
 });

@@ -96,4 +96,15 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
 
+    /**
+     * @param array $where
+     * @param array $orWhere
+     * @return Collection
+     */
+    public function firstWhereOrWhere(array $where = [], array $orWhere = [])
+    {
+        return $this->model->where($where)->orWhere($orWhere)->first();
+    }
+
+
 }
