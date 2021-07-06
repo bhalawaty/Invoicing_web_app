@@ -13,7 +13,6 @@ $ cp  .env.example .env
 $ docker-compose build webserver
 $ docker-compose up -d 
 $ docker-compose exec webserver php artisan migrate
-$ docker-compose exec webserver php artisan db:seed
 ```
 
 project Link -> http://localhost:8080
