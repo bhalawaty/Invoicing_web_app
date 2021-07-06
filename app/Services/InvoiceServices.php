@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Core\Response\ApiJsonMessage;
 use App\Entities\InvoiceEntities;
 use App\Entities\UsersEntities;
 use App\Mail\InvoiceMail;
@@ -39,20 +40,16 @@ class InvoiceServices
      * @param UsersEntities $UsersEntities
      * @return mixed
      */
-    public function store(InvoiceEntities $invoiceEntities, UsersEntities $UsersEntities)
+    public function store(InvoiceEntities $invoiceEntities)
     {
-        $user = $this->usersServices->userCheck($UsersEntities);
-        $invoiceEntities->setUserId($user->id);
-        $invoice = $this->invoiceRepository->create($invoiceEntities->getAttributesArray());
-        $this->SendMail($user, $invoice->toArray());
-        return $invoice;
+        return $this->invoiceRepository->create($invoiceEntities->getAttributesArray());
     }
 
     /**
      * @param  $user
      * @param $invoice
      */
-    protected function SendMail($user, $invoice): void
+    public function sendMail($user, $invoice): void
     {
         Mail::to($user->email)->send(new InvoiceMail($invoice));
     }
